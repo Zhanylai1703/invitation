@@ -25,4 +25,3 @@ class Invitation(models.Model):
 
     def __str__(self):
         return f"Приглашение для {self.first_invitation} {self.second_invitation}"
-
