@@ -2110,10 +2110,16 @@ t827_init('723399354');
 <form id="invitation-form" action="{% url 'invitation_view' token=token %}" method="POST">
     {% csrf_token %}
 
-    <label for="wish">
-        Каало-тилектер
-        <input id="wish" name="wish" type="text" required />
-    </label>
+<label for="wish">
+    Каалоо-тилектер
+    <br>
+    <small style="font-size: 0.8em; color: #666;">Каалоо-тилек жазып, тойдон белек утуп ал!</small>
+    <br>
+    <input id="wish" name="wish" type="text" required />
+</label>
+
+
+
 
     <fieldset>
         <label>
