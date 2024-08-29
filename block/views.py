@@ -8,7 +8,7 @@ def invitation_view(request, token):
 
     full_invitation = invitation.first_invitation
     if invitation.second_invitation:
-        full_invitation += f" , {invitation.second_invitation}"
+        full_invitation += f" & {invitation.second_invitation}"
 
     if request.method == 'POST':
         response = request.POST.get('response')
