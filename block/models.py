@@ -25,3 +25,11 @@ class Invitation(models.Model):
 
     def __str__(self):
         return f"Приглашение для {self.first_invitation} {self.second_invitation}"
+
+
+class Wish(models.Model):
+    name = models.CharField(max_length=255)
+    wish = models.TextField()
+
+    def __str__(self):
+        return self.name

@@ -10,17 +10,14 @@
    WEB-приглашение на юбилей
   </title>
   <meta content="Будем рады разделить с вами чудесный праздник в день нашего 50 летия!" name="description"/>
-  <meta content="https://eventsletter.ru/wedding/rose" property="og:url"/>
   <meta content="WEB-приглашение на юбилей" property="og:title"/>
   <meta content="Будем рады разделить с вами чудесный праздник в день нашего 50 летия!" property="og:description"/>
   <meta content="website" property="og:type"/>
-  <meta content="https://static.tildacdn.com/tild3164-3861-4130-b662-613035396663/CC9313F9-7AB5-41CF-B.jpeg" property="og:image"/>
+  <meta content="{% static 'img/logo.jpg' %}" property="og:image"/>
   <link href="https://eventsletter.ru/wedding/rose" rel="canonical"/>
   <!--/metatextblock-->
   <meta content="telephone=no" name="format-detection"/>
   <meta content="on" http-equiv="x-dns-prefetch-control"/>
-  <link href="https://ws.tildacdn.com" rel="dns-prefetch"/>
-  <link href="https://static.tildacdn.com" rel="dns-prefetch"/>
 
   <meta content="noindex" name="robots">
    <link href="https://static.tildacdn.com/tild3532-3161-4336-b965-363839323964/favicon_10.ico" rel="shortcut icon" type="image/x-icon">
@@ -1580,7 +1577,7 @@ t396_init('686067337');
         <div class="t022__text t-text t-text_sm" field="text">
          <div data-customstyle="yes" style="font-size:18px;">
           <span style="font-weight: 400;">
-           Урматтуу {{ full_invitation }}  сиздерди, 50 - жылдык маарекебизге кадырлуу коногубуз болуп кетүүгө чакырабыз. Ушул өзгөчө күндү, жакын адамдардын курчоосунда болгубуз келет. Ардактуу күндү тең бөлүшүп кетүүнүздү өтүнөбүз.
+           Урматтуу коноктор, сиздерди, 50 - жылдык маарекебизге кадырлуу коногубуз болуп кетүүгө чакырабыз. Ушул өзгөчө күндө, жакын адамдардын курчоосунда болгубуз келет. Ардактуу күндү тең бөлүшүп кетүүнүздү өтүнөбүз.
            </br>
            <br>
             Алладан насип болуп багыбызга,
@@ -1943,16 +1940,18 @@ t827_init('723399354');
 <form id="invitation-form" action="{% url 'invitation_view' token=token %}" method="POST">
     {% csrf_token %}
 
-<label for="wish">
-    Каалоо-тилектер
-    <br>
-    <small style="font-size: 0.8em; color: #666;">Каалоо-тилек жазып, тойдон белек утуп ал!</small>
-    <br>
-    <input id="wish" name="wish" type="text" required />
-</label>
+    <label for="name">
+        Сиздин атыңыз
+        <input id="name" name="name" type="text" required />
+    </label>
 
-
-
+    <label for="wish">
+        Каалоо-тилектер
+        <br>
+        <small style="font-size: 0.8em; color: #666;">Каалоо-тилек жазып, тойдон белек утуп ал!</small>
+        <br>
+        <input id="wish" name="wish" type="text" required />
+    </label>
 
     <fieldset>
         <label>
@@ -1967,6 +1966,7 @@ t827_init('723399354');
 
     <button type="submit">Отправить</button>
 </form>
+
 
 <div id="response-message"></div>
 

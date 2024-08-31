@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
-from .models import Invitation
+from .models import Invitation, Wish
 
 
 def invitation_view(request, token):
@@ -12,15 +12,18 @@ def invitation_view(request, token):
 
     if request.method == 'POST':
         response = request.POST.get('response')
-        wish = request.POST.get('wish')
+        name = request.POST.get('name')  # Получаем имя пользователя
+        wish_text = request.POST.get('wish')  # Получаем текст пожелания
 
+        # Обновляем статус приглашения
         if response == 'accept':
             invitation.status = 'accepted'
         elif response == 'decline':
             invitation.status = 'declined'
 
-        if wish:
-            invitation.wish = wish
+        # Сохраняем пожелание в модели Wish, если введены имя и текст пожелания
+        if name and wish_text:
+            Wish.objects.create(name=name, wish=wish_text)
 
         invitation.save()
         return JsonResponse({"message": "Спасибо за ваш ответ!"})
