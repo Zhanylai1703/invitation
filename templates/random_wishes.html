@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel of Wishes</title>
+    <style>
+        canvas {
+            margin: 0 auto;
+            display: block;
+            background-color: #f7f7f7;
+        }
+
+        #spin {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">Wheel of Wishes</h1>
+    <canvas id="wheelCanvas" width="500" height="500"></canvas>
+    <button id="spin">Spin the Wheel</button>
+
+    <div id="result"></div> <!-- Блок для вывода результата -->
+
+    <script>
+        const wishes = [
+            {% for wish in wishes %}
+                "{{ wish.name }}",
+            {% endfor %}
+        ];
+
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = 200;
+
+        // Устанавливаем количество сегментов и их углы
+        const totalSegments = wishes.length;
+        const segmentAngle = (2 * Math.PI) / totalSegments;
+        let currentAngle = 0;
+
+        // Функция для отрисовки колеса
+        function drawWheel() {
+            wishes.forEach((wish, index) => {
+                const startAngle = currentAngle;
+                const endAngle = startAngle + segmentAngle;
+
+                // Цвет сегмента
+                ctx.fillStyle = index % 2 === 0 ? '#FFDD57' : '#FF6F61';
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fill();
+
+                // Добавляем текст
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + segmentAngle / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#000";
+                ctx.font = "16px Arial";
+                ctx.fillText(wish, radius - 10, 10);
+                ctx.restore();
+
+                currentAngle += segmentAngle;
+            });
+        }
+
+        drawWheel();
+
+        // Переменные для вращения
+        let spinAngle = 0;
+        let spinVelocity = 0;
+        let spinning = false;
+
+        // Функция для запуска вращения
+        function spin() {
+            if (!spinning) {
+                spinVelocity = Math.random() * 0.2 + 0.2; // Рандомная скорость вращения
+                spinning = true;
+                requestAnimationFrame(animate);
+            }
+        }
+
+        // Анимация вращения
+        function animate() {
+            if (spinVelocity > 0.01) {
+                spinAngle += spinVelocity;
+                spinVelocity *= 0.98; // Замедление вращения
+                currentAngle += spinAngle;
+
+                // Очищаем холст и перерисовываем колесо
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawWheel();
+
+                requestAnimationFrame(animate);
+            } else {
+                spinning = false;
+                displayResult(); // Выводим результат после остановки колеса
+            }
+        }
+
+        // Функция для вывода результата
+        function displayResult() {
+            const resultIndex = Math.floor(Math.random() * wishes.length);
+            const resultText = "Winner: " + wishes[resultIndex];
+
+            // Обновляем текст в блоке с результатом
+            document.getElementById('result').textContent = resultText;
+        }
+
+        document.getElementById('spin').addEventListener('click', spin);
+    </script>
+</body>
+</html>

@@ -33,3 +33,9 @@ def invitation_view(request, token):
         'page_source.html',
         {'invitation': invitation, 'full_invitation': full_invitation, 'token': token}
     )
+
+
+def random_wishes_view(request):
+    wishes = Wish.objects.all()  # Берем все записи из модели Wish
+    context = {'wishes': wishes}
+    return render(request, 'random_wishes.html', context)

@@ -3,11 +3,12 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from block.views import invitation_view
+from block.views import invitation_view, random_wishes_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('invite/<str:token>/', invitation_view, name='invitation_view'),
+    path('random-wishes/', random_wishes_view, name='random_wishes'),
 ]
 
 if settings.DEBUG:
