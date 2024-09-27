@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wheel of Wishes</title>
+    <title>Определить победителей</title>
     <style>
         canvas {
             margin: 0 auto;
@@ -28,19 +28,32 @@
             font-size: 24px;
             font-weight: bold;
         }
+
+        #wish-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 20px;
+            font-style: italic;
+            color: #555;
+        }
     </style>
 </head>
 <body>
-    <h1 style="text-align:center;">Wheel of Wishes</h1>
+    <h1 style="text-align:center;">Определить победителей</h1>
     <canvas id="wheelCanvas" width="500" height="500"></canvas>
-    <button id="spin">Spin the Wheel</button>
+    <button id="spin">Крутить</button>
 
-    <div id="result"></div> <!-- Блок для вывода результата -->
+    <div id="result"></div> <!-- Блок для вывода имени победителя -->
+    <div id="wish-text"></div> <!-- Блок для вывода желания -->
 
     <script>
+        // Массив с именами и желаниями
         const wishes = [
             {% for wish in wishes %}
-                "{{ wish.name }}",
+                {
+                    name: "{{ wish.name }}",
+                    text: "{{ wish.wish|escapejs }}"  // Используем escapejs для безопасного вывода текста
+                },
             {% endfor %}
         ];
 
@@ -76,7 +89,7 @@
                 ctx.textAlign = "right";
                 ctx.fillStyle = "#000";
                 ctx.font = "16px Arial";
-                ctx.fillText(wish, radius - 10, 10);
+                ctx.fillText(wish.name, radius - 10, 10);
                 ctx.restore();
 
                 currentAngle += segmentAngle;
@@ -120,10 +133,11 @@
         // Функция для вывода результата
         function displayResult() {
             const resultIndex = Math.floor(Math.random() * wishes.length);
-            const resultText = "Winner: " + wishes[resultIndex];
+            const winner = wishes[resultIndex];
 
-            // Обновляем текст в блоке с результатом
-            document.getElementById('result').textContent = resultText;
+            // Обновляем текст в блоке с именем победителя и его желанием
+            document.getElementById('result').textContent = "Победитель: " + winner.name;
+            document.getElementById('wish-text').textContent = "Пожелание: " + winner.text;
         }
 
         document.getElementById('spin').addEventListener('click', spin);
